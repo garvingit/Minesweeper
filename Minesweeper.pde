@@ -16,18 +16,17 @@ void setup ()
     Interactive.make( this );
     
     //your code to declare and initialize buttons goes here
-    for(int r = 0; r < NUM_ROWS; r++){
-        for(int c = 0; c < NUM_COLS; c++){
+    buttons = new MSButton[20][20];
+    for(int r = 0; r < NUM_ROWS; r++)
+        for(int c = 0; c < NUM_COLS; c++)
             buttons[r][c] = new MSButton(r,c);
-        }
-    }
-    
     
     setBombs();
 }
 public void setBombs()
 {
     //your code
+    private int ranRC = (int)(Math.random()*22)-1;
 }
 
 public void draw ()
@@ -90,8 +89,8 @@ public class MSButton
     {    
         if (marked)
             fill(0);
-        // else if( clicked && bombs.contains(this) ) 
-        //     fill(255,0,0);
+        else if( clicked && bombs.contains(this) ) 
+            fill(255,0,0);
         else if(clicked)
             fill( 200 );
         else 

@@ -2,8 +2,8 @@
 
 import de.bezier.guido.*;
 //Declare and initialize NUM_ROWS and NUM_COLS = 20
-public static final int NUM_ROWS = 5;
-public static final int NUM_COLS = 5;
+public static final int NUM_ROWS = 20;
+public static final int NUM_COLS = 20;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> bombs = new ArrayList <MSButton>();; //ArrayList of just the minesweeper buttons that are mined
 
@@ -21,7 +21,7 @@ void setup ()
         for(int c = 0; c < NUM_COLS; c++)
             buttons[r][c] = new MSButton(r,c);
     
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 50; i++){
         setBombs();
     }
 }
@@ -88,6 +88,33 @@ public class MSButton
     {
         clicked = true;
         //your code here
+        if(keyPressed){
+            marked = !marked;
+            if(marked == false)
+                clicked = false;
+        } else if(bombs.contains(this)){
+            displayLosingMessage();
+        } else if(countBombs(r,c) > 0){
+            setLabel("" + countBombs(r,c));
+        } else {
+            if(isValid(r,c+1) && !buttons[r][c+1].isClicked()) 
+                buttons[r][c+1].mousePressed();
+            if(isValid(r+1,c+1) && !buttons[r+1][c+1].isClicked()) 
+                buttons[r+1][c+1].mousePressed();
+            if(isValid(r-1,c+1)  && !buttons[r-1][c+1].isClicked()) 
+                buttons[r-1][c+1].mousePressed();
+            if(isValid(r,c-1) && !buttons[r][c-1].isClicked()) 
+                buttons[r][c-1].mousePressed();
+            if(isValid(r+1,c-1) && !buttons[r+1][c-1].isClicked()) 
+                buttons[r+1][c-1].mousePressed();
+            if(isValid(r-1,c-1) && !buttons[r-1][c-1].isClicked()) 
+                buttons[r-1][c-1].mousePressed();
+            if(isValid(r+1,c) && !buttons[r+1][c].isClicked()) 
+                buttons[r+1][c].mousePressed();
+            if(isValid(r-1,c) && !buttons[r-1][c].isClicked()) 
+                buttons[r-1][c].mousePressed();
+        }
+
     }
 
     public void draw () 

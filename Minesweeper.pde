@@ -1,5 +1,6 @@
 
 
+
 import de.bezier.guido.*;
 //Declare and initialize NUM_ROWS and NUM_COLS = 20
 public static final int NUM_ROWS = 20;
@@ -21,7 +22,7 @@ void setup ()
         for(int c = 0; c < NUM_COLS; c++)
             buttons[r][c] = new MSButton(r,c);
     
-    for(int i = 0; i < 50; i++){
+    for(int i = 0; i < 15; i++){
         setBombs();
     }
 }
@@ -42,16 +43,47 @@ public void draw ()
 }
 public boolean isWon()
 {
-    //your code here
-    return false;
+    for(int r = 0; r < NUM_ROWS; r++)
+       for(int c = 0; c < NUM_COLS; c++)   
+            if(!buttons[r][c].isMarked() && !buttons[r][c].isClicked())
+                return false;
+    return true;
 }
 public void displayLosingMessage()
 {
-    //your code here
+  for (int r=0; r<NUM_ROWS; r++){
+    for (int c=0; c<NUM_COLS; c++){
+      if (bombs.contains(buttons[r][c])&& !buttons[r][c].isClicked()){
+        buttons[r][c].marked=false;
+        buttons[r][c].clicked=true;
+      }
+    }
+  }
+    
 }
 public void displayWinningMessage()
 {
-    //your code here
+  for(int i = bombs.size()-1; i >= 0; i--){
+    bombs.remove(i);
+  }    
+  for (int r=0; r<NUM_ROWS; r++){
+    for (int c=0; c<NUM_COLS; c++){ 
+        buttons[r][c].marked=false;
+        buttons[r][c].clicked=true;
+        buttons[r][c].setLabel("");
+    }
+  }
+     buttons[7][7].marked = true;
+     buttons[7][12].marked = true;
+     buttons[11][6].marked = true;
+     buttons[11][13].marked = true;
+     buttons[12][7].marked = true;
+     buttons[12][8].marked = true;
+     buttons[12][9].marked = true;
+     buttons[12][10].marked = true;
+     buttons[12][11].marked = true;
+     buttons[12][12].marked = true;
+
 
 }
 
@@ -88,10 +120,9 @@ public class MSButton
     {
         clicked = true;
         //your code here
-        if(keyPressed){
+        if(keyPressed && keyCode == 16){
             marked = !marked;
-            if(marked == false)
-                clicked = false;
+            if(!marked) clicked = false;
         } else if(bombs.contains(this)){
             displayLosingMessage();
         } else if(countBombs(r,c) > 0){
@@ -119,18 +150,18 @@ public class MSButton
 
     public void draw () 
     {    
-        if (marked)
-            fill(0);
+        if(marked)
+            fill(0,255,0);
         else if(clicked && bombs.contains(this)) 
             fill(255,0,0);
         /*else if(clicked && !bombs.contains(this))
             marked = false;*/
         else if(clicked)
-            fill(0,255,0);
+            fill(255);
         else 
             fill( 100 );
 
-        rect(x, y, width, height);
+        rect(x, y, width, height,2);
         fill(0);
         text(label,x+width/2,y+height/2);
     }
@@ -160,6 +191,5 @@ public class MSButton
     }
 
 }
-
 
 
